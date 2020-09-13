@@ -1,9 +1,9 @@
 # Load the PANDAS library
 import pandas
+import numpy
 from sklearn.neighbors import KNeighborsClassifier
 
-cars = pandas.read_csv('C:\\Users\\minlam\\Documents\\IIT\\Machine Learning\\Data\\cars.csv',
-                       delimiter=',')
+cars = pandas.read_csv('cars.csv', delimiter=',')
 
 cars["CaseID"] = cars["Make"] + "_" + cars.index.values.astype(str)
 

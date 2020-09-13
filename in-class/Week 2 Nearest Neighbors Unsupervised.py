@@ -3,7 +3,7 @@ import numpy
 import pandas
 from sklearn.neighbors import NearestNeighbors as kNN
 
-cars = pandas.read_csv('C:\\Users\\minlam\\Documents\\IIT\\Machine Learning\\Data\\cars.csv',
+cars = pandas.read_csv('cars.csv',
                        delimiter=',')
 
 cars["CaseID"] = cars["Make"] + "_" + cars.index.values.astype(str)
