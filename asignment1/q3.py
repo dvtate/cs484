@@ -12,33 +12,33 @@ df = pd.read_csv('Fraud.csv')
 ############
 # Q3.a
 ############
-# print('Q3.a')
+print('Q3.a')
 
-# # Calculate fraud rate
-# fraud_n = functools.reduce(lambda a, v: a + v, df['FRAUD'], 0)
-# fraud_rate = fraud_n / len(df['FRAUD'])
-# print('\tfraudulent accounts:', fraud_n)
-# print('\ttotal accounts:', len(df['FRAUD']))
-# print("\tfraud rate: %3.4f%%" % (100 * fraud_rate))
+# Calculate fraud rate
+fraud_n = functools.reduce(lambda a, v: a + v, df['FRAUD'], 0)
+fraud_rate = fraud_n / len(df['FRAUD'])
+print('\tfraudulent accounts:', fraud_n)
+print('\ttotal accounts:', len(df['FRAUD']))
+print("\tfraud rate: %3.4f%%" % (100 * fraud_rate))
 
 ############
 # Q3.b
 ############
-# print('\nQ3.b\n\tsee charts')
+print('\nQ3.b\n\tsee charts')
 
-# # Box plot for each field
-# for field in df:
-#     # Skip external fields
-#     if field in ('CASE_ID', 'FRAUD'):
-#         continue
+# Box plot for each field
+for field in df:
+    # Skip external fields
+    if field in ('CASE_ID', 'FRAUD'):
+        continue
 
-#     # Draw boxplot
-#     df.boxplot(column=field, by='FRAUD', vert=False, whis=1.5)
-#     plt.title("Boxplot of %s by levels of FRAUD" % field)
-#     plt.xlabel(field)
-#     plt.ylabel('fraud')
-#     plt.grid(axis="y")
-#     plt.show()
+    # Draw boxplot
+    df.boxplot(column=field, by='FRAUD', vert=False, whis=1.5)
+    plt.title("Boxplot of %s by levels of FRAUD" % field)
+    plt.xlabel(field)
+    plt.ylabel('fraud')
+    plt.grid(axis="y")
+    plt.show()
 
 ############
 # Q3.c
