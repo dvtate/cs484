@@ -32,7 +32,7 @@ def show_density_summary(bin_width, xs = xs, a = a, b = b):
     bin_start = a
     while bin_start < b:
         # Get items in the bin
-        entries = filter(lambda x: 
+        entries = filter(lambda x:
             x > bin_start and x <= bin_start + bin_width, xs)
         num_entries = len(tuple(entries))
 
@@ -94,23 +94,3 @@ print('\tinterquartile-range:', iqr)
 
 ideal_h = 2 * iqr * len(xs) ** (-1 / 3)
 print('\tIdeal bin-width: h =', ideal_h)
-
-
-# Show barchart of 
-'''
-trainData.groupby('BAD').size().plot(kind='barh')
-plt.title("Barchart of BAD")
-plt.xlabel("Number of Observations")
-plt.ylabel("BAD")
-plt.grid(axis="x")
-plt.show()
-'''
-
-# Visualize the boxplot of the DELINQ variable by BAD
-# data.boxplot(column='x', by='group', vert=False)
-# plt.title("Boxplot of x by Levels of BAD")
-# plt.suptitle("")
-# plt.xlabel("x")
-# plt.ylabel("group")
-# plt.grid(axis="y")
-# plt.show()
