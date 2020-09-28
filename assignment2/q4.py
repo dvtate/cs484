@@ -1,11 +1,29 @@
-
-
 import pandas
-import sklearn.cluster as cluster
+import sklearn.cluster
+import sklearn.metrics
 
-X = pandas.DataFrame({‘x’: [0.8, 0.3, 0.1, 0.4, 0.9]})
-myCluster = cluster.KMeans(n_clusters = 2, random_state = 0).fit(X)
+print('Loading clusters...')
+X = pandas.DataFrame({ 'x' : [-2, -1, 1, 2, 3, 4, 5, 7, 8] })
+cs = sklearn.cluster.KMeans(n_clusters = 2, random_state = 0).fit(X)
 
-print(“Cluster Assignment:”, myCluster.labels_)
-print(“Cluster Centroid 0:”, myCluster.cluster_centers_[0])
-print(“Cluster Centroid 1:”, myCluster.cluster_centers_[1])
+# Verfiy cluster assignments are correct
+print('\tCluster Assignment:', cs.labels_)
+
+###
+# Q4.a
+###
+print('Q4.a')
+
+# Compute sillouette width
+sil = sklearn.metrics.silhouette_score(X, cs.labels_)
+print('\t', sil)
+
+
+###
+# Q4.c
+###
+print('Q4.c')
+
+# Compute davies
+dbs = sklearn.metrics.davies_bouldin_score(X, cs.labels_)
+print('\t', dbs)
