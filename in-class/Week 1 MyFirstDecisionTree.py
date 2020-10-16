@@ -47,6 +47,12 @@ plt.show()
 X_inputs = trainData[['DELINQ']]
 Y_target = trainData[['BAD']]
 
+
+trainData = pandas.DataFrame({'A': [1,2,3,4,5],
+                            'B': [262, 1007, 1662, 1510, 559]})
+X_inputs = trainData[['B']]
+Y_target = trainData[['A']]
+
 # Load the TREE library from SKLEARN
 classTree = tree.DecisionTreeClassifier(criterion='entropy', max_depth=2, random_state=60616)
 
@@ -56,29 +62,11 @@ print('Accuracy of Decision Tree classifier on training set: {:.2f}'
 
 dot_data = tree.export_graphviz(hmeq_dt,
                                 out_file=None,
-                                impurity = True, filled = True,
-                                feature_names = ['DELINQ'],
-                                class_names = ['0', '1'])
+                                impurity = True, filled = True)
 print(dot_data)
 
 graph = graphviz.Source(dot_data)
 
 print(graph, type(graph))
 
-graph.render('hmeq_output')
-
-scoreData = trainData.copy()
-scoreData['predProb'] = 0.9222
-scoreData.loc[scoreData['DELINQ'] == 0, 'predProb'] = 0.1395
-scoreData.loc[scoreData['DELINQ'] == 1, 'predProb'] = 0.4059
-scoreData.loc[scoreData['DELINQ'] == 2, 'predProb'] = 0.4059
-scoreData.loc[scoreData['DELINQ'] == 3, 'predProb'] = 0.4059
-scoreData.loc[scoreData['DELINQ'] == 4, 'predProb'] = 0.4059
-
-scoreData['predClass'] = 0
-scoreData.loc[scoreData['predProb'] >= 0.4059, 'predClass'] = 1
-
-scoreData['MisClassify'] = 0
-scoreData.loc[scoreData['predClass'] != scoreData['BAD'], 'MisClassify'] = 1
-
-print('Misclassification Rate: {:.2%}'.format(scoreData['MisClassify'].mean()))
+graph.render('test')
