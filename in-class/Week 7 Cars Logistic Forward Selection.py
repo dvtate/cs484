@@ -29,7 +29,7 @@ print(trainData[yName].value_counts())
 
 print('\n--- Frequency of ' + catName + ' ---')
 print(trainData[catName].value_counts())
-    
+
 # Descriptive statistics of the interval field
 print('\n--- Descriptive Statistics of ' + intName + ' ---')
 print(trainData[intName].describe())
@@ -90,7 +90,7 @@ def SWEEPOperator (pDim, inputM, tol):
 
     aliasParam = []
     nonAliasParam = []
-    
+
     A = numpy.copy(inputM)
     diagA = numpy.diagonal(inputM)
 
