@@ -55,7 +55,6 @@ def build_mnlogit (fullX, y):
     # Return model statistics
     return (thisLLK, thisDF, thisParameter, thisFit)
 
-
 df = pandas.read_csv('./Purchase_Likelihood.csv')
 df['group_size_x_homeowner'] = df['group_size'] * df['homeowner']
 df['group_size_x_married_couple'] = df['group_size'] * df['homeowner']

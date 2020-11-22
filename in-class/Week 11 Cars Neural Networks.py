@@ -3,7 +3,7 @@ import numpy
 import pandas
 import sklearn.neural_network as nn
 
-inputData = pandas.read_csv('C:\\Users\\minlam\\Documents\\IIT\\Machine Learning\\Data\\cars.csv',
+inputData = pandas.read_csv('cars.csv',
                             delimiter=',')
 
 target = 'DriveTrain'
@@ -41,10 +41,10 @@ for i in numpy.arange(1,11):
     for j in numpy.arange(5,25,5):
         for act in ['identity','logistic','relu','tanh']:
            RASE = Build_NN_Class (actFunc = act, nLayer = i, nHiddenNeuron = j)
-           result = result.append(pandas.DataFrame([[act, i, j, RASE]], 
+           result = result.append(pandas.DataFrame([[act, i, j, RASE]],
                                   columns = ['Activation Function', 'nLayer', 'nHiddenNeuron', 'RASE']),
                                   ignore_index=True)
-           
+
 result[['Activation Function','RASE']].boxplot(by = 'Activation Function')
 plt.suptitle('')
 plt.title('')
