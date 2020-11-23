@@ -4,10 +4,14 @@ import pandas
 import sklearn
 import sklearn.svm
 import sklearn.neural_network
+import matplotlib.pyplot as plt
 
 
 df = pandas.read_csv('SpiralWithCluster.csv')
+X = df[['x', 'y']]
+Y = df['SpectralCluster']
 
+# A. Get frequency
 total = 0
 cluster1 = 0
 for c in df['SpectralCluster']:
@@ -17,7 +21,6 @@ for c in df['SpectralCluster']:
 
 threshold = cluster1 / total
 print('Opservations with SpectralCluster=1 : %s%%' % (100 * threshold)) # 50%
-
 
 
 '''
@@ -38,11 +41,7 @@ b. (20 points) You will search for the neural network that yields the lowest los
         (6) the misclassification rate.
 '''
 
-#nn = sklearn.neural_network.MLPClassifier(learning_rate_init = 0.1, solver = 'lbfgs', random_state = 20200408, max_iter = 10000)
-
-X = df[['x', 'y']]
-Y = df['SpectralCluster']
-
+# Util to make nn classifier
 def Build_NN_Class (actFunc, nLayer, nHiddenNeuron):
 
     # Build Neural Network
@@ -55,20 +54,48 @@ def Build_NN_Class (actFunc, nLayer, nHiddenNeuron):
     # Test model
     pred = nn.predict_proba(X)
 
-    #
+    # Call misclassification rate
     bad = 0
     for i in range(len(pred)):
-        if pred[i] > threshold and Y[i] == 1:
+        # print(pred[i])
+        if pred[i][1] > pred[i][0] and Y[i] == 1:
             bad += 1
-    return bad / len(pred)
+    err = bad / len(pred)
 
-    # Calculate Root Average Squared Error
-    #    y_residual = Y - y_predProb
-    #    rase = numpy.sqrt(numpy.mean(y_residual ** 2))
-    return numpy.mean(y_predProb)
+    iterations = nn.n_iter_
+    loss = nn.loss_
+    return err, iterations, loss, nn.out_activation_
 
-for i in numpy.arange(1,11):
-    for j in numpy.arange(5,25,5):
-        for act in ('identity', 'logistic', 'relu', 'tanh'):
-           RASE = Build_NN_Class (actFunc = act, nLayer = i, nHiddenNeuron = j)
-        #    print(i, j, act, RASE)
+# print('Layers\tNeurons\tActFn\tMCR\tLoss\tIter')
+
+for act in ('identity', 'logistic', 'relu', 'tanh'):
+    print('Using activation function %s...', act)
+    row = None
+    for layers in (1,2,3,4,5):
+        for neurons in (1, 2, 3, 4, 5, 6, 7, 8, 9, 10):
+            mcr, it, loss, ofn = Build_NN_Class (actFunc = act, nLayer = layers, nHiddenNeuron = neurons)
+            r = (layers, neurons, mcr, loss, it, ofn)
+            if ofn != 'logistic':
+                print("!!!!!!!!!ofn", ofn)
+            if row == None or (r[3] < row[3] and r[2] < row[2]):
+                row = r
+            # print("%s\t%s\t%s\t%s\t%f\t%s" % (layers, neurons, act[:4], mcr, loss, it))
+    print("%s: %s" % (act, row))
+
+
+# Build NN
+nn = sklearn.neural_network.MLPClassifier(hidden_layer_sizes = (1,),
+                    activation = 'relu', verbose = False,
+                    solver = 'lbfgs', learning_rate_init = 0.1,
+                    max_iter = 10000, random_state = 20200408)
+fit = nn.fit(X, Y)
+
+# Make scatterplot
+colors = tuple(map(lambda g: ('red', 'blue')[g], map(lambda pred: 1 if pred[1] > pred[0] else 0, fit.predict_proba(X))))
+# colors = tuple(map(lambda g: ('red', 'blue')[g], Y))   # ideal
+plt.scatter(X['x'], X['y'], color=colors)
+plt.xlabel('x')
+plt.ylabel('y')
+plt.title('relu NN classification of spiral')
+plt.grid(True)
+plt.show()
