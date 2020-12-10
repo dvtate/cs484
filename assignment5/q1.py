@@ -82,7 +82,6 @@ for act in ('identity', 'logistic', 'relu', 'tanh'):
             # print("%s\t%s\t%s\t%s\t%f\t%s" % (layers, neurons, act[:4], mcr, loss, it))
     print("%s: %s" % (act, row))
 
-
 # Build NN
 nn = sklearn.neural_network.MLPClassifier(hidden_layer_sizes = (1,),
                     activation = 'relu', verbose = False,
